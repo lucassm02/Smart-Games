@@ -1,0 +1,65 @@
+<?php
+
+/*
+    Projeto: Smart Games
+    Autor: Alcateck
+    Data: 01/10/2018
+    Objetivo: Controlar as ações dos usuarios
+
+*/
+
+class controllerusuario{
+    
+    public function __construct(){
+        // Importa DAO e Classe modelo
+        require_once($_SERVER['DOCUMENT_ROOT']."/model/usuarioClass.php");
+        require_once($_SERVER['DOCUMENT_ROOT']."/model/DAO/usuarioDAO.php");
+        
+    }
+    
+    public function logar(){
+        
+        if($_SERVER['REQUEST_METHOD'] == "POST"){
+            
+            $usuario = new Usuario();
+            
+            $usuario->setEmail($_POST['txtEmail']);
+            $usuario->setSenha(md5($_POST['txtSenha']));
+            
+            $usuarioDAO = new usuarioDAO();
+            
+            $usuarioDAO->autenticar($usuario);
+            
+            
+        }
+        
+    }
+    
+    public function inserirUsuario(){
+        
+        if($_SERVER['REQUEST_METHOD'] == "POST"){
+            
+            // Instancia a classe Usuario
+            $usuario = new Usuario();
+            
+            //Guarda os dados retirados do FORM nos atributos da classe usuario
+            $usuario->setNome($_POST['txtNome']);
+            $usuario->setEmail($_POST['txtEmail']);
+            $usuario->setSenha($_POST['txtSenha']);
+            $usuario->setDt_nasc($_POST['txtDt_nasc']);
+            $usuario->setSexo($_POST['rdoSexo']);
+            $usuario->setTelefone($_POST['txtTelefone']);
+            $usuario->setCelular($_POST['txtCelular']);
+            
+            //instancia de Usuario DAO e chamada do método inserir
+            $usuarioDAO = new usuarioDAO();
+            $usuarioDAO->inserir($usuario);
+            
+        }
+        
+        
+    }
+    
+}
+
+?>
